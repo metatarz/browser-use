@@ -34,7 +34,6 @@ from browser_use.browser.views import (
 from browser_use.dom.service import DomService
 from browser_use.dom.views import DOMElementNode, SelectorMap
 from browser_use.utils import time_execution_async, time_execution_sync
-
 if TYPE_CHECKING:
 	from browser_use.browser.browser import Browser
 

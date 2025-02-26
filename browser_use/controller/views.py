@@ -11,6 +11,8 @@ class SearchGoogleAction(BaseModel):
 class GoToUrlAction(BaseModel):
 	url: str
 
+class AskHumanAction(BaseModel):
+        text: str
 
 class ClickElementAction(BaseModel):
 	index: int
