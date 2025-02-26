@@ -28,9 +28,10 @@ Additions:
 
 ```bash
 uv venv --python 3.11
+source .venv/bin/activate
 uv pip install -r pyproject.toml 
-
-# create .env file
+# update .env values
+cp .env.example .env
 python3 agent.py
 
 ```

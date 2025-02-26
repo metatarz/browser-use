@@ -13,7 +13,6 @@ from browser_use.agent.views import ActionModel, ActionResult
 from browser_use.browser.context import BrowserContext
 from browser_use.controller.registry.service import Registry
 from websocket_server import send_message,wait_for_client_response
-from shared_state import shared_state
 from browser_use.controller.views import (
 	ClickElementAction,
 	DoneAction,

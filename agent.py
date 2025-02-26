@@ -11,11 +11,13 @@ from typing import Optional, Dict
 os.environ["ANONYMIZED_TELEMETRY"] = "false"
 
 load_dotenv()
-llm = ChatOpenAI(model="gpt-4o-mini")
+model_name = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+llm = ChatOpenAI(model=model_name)
 
+cdp_url = os.getenv("BROWSER_CDP_URL", "ws://localhost:9223")
 browser = Browser(
     config=BrowserConfig(
-        cdp_url="ws://localhost:9223",
+        cdp_url=cdp_url,
     )
 )
 controller = Controller()
