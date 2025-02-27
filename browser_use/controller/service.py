@@ -27,9 +27,8 @@ from browser_use.controller.views import (
 	AskHumanAction,
 )
 from browser_use.utils import time_execution_sync
-
 logger = logging.getLogger(__name__)
-
+from datetime import datetime, timezone
 
 Context = TypeVar('Context')
 
@@ -183,11 +182,11 @@ class Controller(Generic[Context]):
             #msg = f'🔗  Asked human: {params.text}'
 		    #logger.info(msg)
 		    try:
-		        #await shared_state.reset()
+		        #ask_timestamp=datetime.now(timezone.utc)
 		        latest_human_response = await asyncio.wait_for(wait_for_client_response(), timeout=30)
 		        
 
-		        #latest_human_response = await shared_state.get_data("latest_human_response")
+		        #latest_human_response = json.loads(latest_human_response)
 		        if latest_human_response is not None:
 		            response_msg = f'Human responded: {latest_human_response}'
 		            logger.info(response_msg)

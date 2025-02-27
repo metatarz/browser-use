@@ -1,5 +1,5 @@
 from langchain_openai import ChatOpenAI
-from datetime import datetime
+from datetime import datetime, timezone
 from browser_use import Agent, Controller
 import asyncio
 from dotenv import load_dotenv
@@ -30,7 +30,7 @@ async def handle_websocket_message(message_object: Dict[str, str]):
     global last_task_completed_timestamp
 
     # Extract the timestamp and message from the object
-    message_timestamp = datetime.fromisoformat(message_object["timestamp"])
+    message_timestamp = datetime.fromisoformat(message_object["timestamp"]).astimezone(timezone.utc)
     message = message_object["text"]
 
     # Discard the message if it is older than the last completed task
@@ -38,6 +38,9 @@ async def handle_websocket_message(message_object: Dict[str, str]):
         print(f" Discarding outdated message: {message} (received at {message_timestamp})")
         return
 
+    if agent_lock.locked():
+        print(f"⚠️  Agent is busy. Discarding message: {message}")
+        return
     # Acquire the lock to ensure one task at a time
     async with agent_lock:
         print(f"Received task: {message} (received at {message_timestamp})")
@@ -54,6 +57,7 @@ async def handle_websocket_message(message_object: Dict[str, str]):
         response_text = f"{result.final_result()} 🚀"
 
         await send_message(response_text)
+        last_task_completed_timestamp=datetime.now(timezone.utc)
         await browser.close()
 
 async def main():

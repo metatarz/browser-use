@@ -49,9 +49,9 @@ class WebSocketServer:
     async def send_message(self, message: str) -> None:
         """Send message to all connected clients"""
         if self.connected_clients:
-            message_json = json.dumps({"text":message})
+           # message_json = json.dumps({"text":message})
             await asyncio.gather(
-                *[client.send(message_json) for client in self.connected_clients]
+                *[client.send(message) for client in self.connected_clients]
             )
 
     def set_message_handler(self, handler: Callable[[str], None]) -> None:
